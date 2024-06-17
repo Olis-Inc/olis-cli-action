@@ -28,13 +28,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npx standard-version --release-as patch
+          npx standard-version --release-as patch
+          TAG_NAME=$(git describe --tags --abbrev=0)
+          echo "::set-output name=tag::$TAG_NAME"
           git push --follow-tags origin main
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.tag.outputs.version }}
-          name: Release ${{ steps.tag.outputs.version }}
-          body: "Release of version ${{ steps.tag.outputs.version }}"
+          tag_name: ${{ steps.bump_version.outputs.tag }}
+          name: Release ${{ steps.bump_version.outputs.tag }}
+          body: "Release of version ${{ steps.bump_version.outputs.tag }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
