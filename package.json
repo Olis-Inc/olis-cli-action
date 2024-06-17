@@ -1,6 +1,6 @@
 {
   "name": "olis-cli-action",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Action for projects using the olis-cli to deploy apps seamlessly",
   "main": "dist/index.js",
   "repository": "https://github.com/Olis-Inc/olis-cli-action.git",
