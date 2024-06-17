@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-  release:
-    types: [published]
 
 jobs:
   publish:
@@ -20,30 +18,18 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Create release tag on push to main
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/')
+      - name: Bump version and create tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG_NAME="v$(date +'%Y.%m.%d.%H%M%S')"
-          git tag $TAG_NAME
-          git push origin $TAG_NAME
-
-      - name: Ensure tag is set for release
-        if: github.event_name == 'release'
-        run: |
-          echo "Ensuring tag is set for the release..."
-          VERSION=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
-          echo "Tagging version $VERSION"
-          git tag -f $VERSION
-          git push origin $VERSION
+          npx standard-version --release-as patch
+          git push --follow-tags origin main
 
       - name: Create GitHub Release
-        if: github.event_name == 'release'
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          name: Release ${{ github.ref }}
-          body: "Release of version ${{ github.ref }}"
+          tag_name: ${{ steps.tag.outputs.version }}
+          name: Release ${{ steps.tag.outputs.version }}
+          body: "Release of version ${{ steps.tag.outputs.version }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
