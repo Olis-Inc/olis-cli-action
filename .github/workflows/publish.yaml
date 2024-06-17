@@ -29,7 +29,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npx standard-version --release-as patch
-          npx standard-version --release-as patch
           TAG_NAME=$(git describe --tags --abbrev=0)
           echo "::set-output name=tag::$TAG_NAME"
           git push --follow-tags origin main
