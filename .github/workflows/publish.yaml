@@ -1,0 +1,49 @@
+name: Publish GitHub Action
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Create release tag on push to main
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG_NAME="v$(date +'%Y.%m.%d.%H%M%S')"
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+
+      - name: Ensure tag is set for release
+        if: github.event_name == 'release'
+        run: |
+          echo "Ensuring tag is set for the release..."
+          VERSION=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
+          echo "Tagging version $VERSION"
+          git tag -f $VERSION
+          git push origin $VERSION
+
+      - name: Create GitHub Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          name: Release ${{ github.ref }}
+          body: "Release of version ${{ github.ref }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
