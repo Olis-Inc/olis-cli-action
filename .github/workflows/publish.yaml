@@ -24,6 +24,7 @@ jobs:
           git config --global user.name "James Olinya"
 
       - name: Bump version and create tag
+        id: bump_version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
