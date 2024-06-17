@@ -1,6 +1,6 @@
 {
   "name": "olis-cli-action",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Action for projects using the olis-cli to deploy apps seamlessly",
   "main": "dist/index.js",
   "repository": "https://github.com/Olis-Inc/olis-cli-action.git",
@@ -9,9 +9,11 @@
   "private": false,
   "scripts": {
     "build": "tsc && ncc build build/index.js",
-    "dev": "yarn build && act -W .github/workflows/dev.yaml | grep -v '::'"
+    "dev": "yarn build && act -W .github/workflows/dev.yaml | grep -v '::'",
+    "prep-release": "yarn changeset"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.5",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.3.0",
     "@types/eslint__js": "^8.42.3",
