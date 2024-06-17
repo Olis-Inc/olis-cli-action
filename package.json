@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc && ncc build build/index.js",
     "dev": "yarn build && act -W .github/workflows/dev.yaml | grep -v '::'",
-    "prep-release": "npx changeset"
+    "prep-release": "yarn changeset"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.5",

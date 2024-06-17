@@ -18,10 +18,8 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Configure Git user
-        run: |
-          git config --global user.email "olinyajames@gmail.com"
-          git config --global user.name "James Olinya"
+      - name: Install dependencies
+        run: npm install @changesets/cli
 
       - name: Bump version and create tag
         id: bump_version
