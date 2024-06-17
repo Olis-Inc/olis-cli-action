@@ -1,9 +1,7 @@
 name: Olis CLI Action
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   main:
