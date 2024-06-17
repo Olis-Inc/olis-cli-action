@@ -1,0 +1,19 @@
+name: Olis CLI Action
+description: Action for projects using the olis-cli to deploy apps seamlessly
+author: James Olinya
+
+branding:
+  icon: "activity"
+  color: "blue"
+
+inputs:
+  githubToken:
+    description: GitHub Token
+    required: true
+  message:
+    description: Test message for action
+    required: true
+
+runs:
+  using: node16
+  main: "dist/index.js"

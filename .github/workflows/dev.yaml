@@ -1,0 +1,16 @@
+name: Olis CLI Action
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          message: This is your year
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
