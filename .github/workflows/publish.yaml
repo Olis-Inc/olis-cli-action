@@ -19,13 +19,13 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: npm install @changesets/cli
+        run: yarn add @changesets/cli -D
 
       - name: Bump version and create tag
         id: bump_version
         uses: changesets/action@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -34,4 +34,4 @@ jobs:
           name: Release ${{ steps.bump_version.outputs.version }}
           body: "Release of version ${{ steps.bump_version.outputs.version }}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
