@@ -18,6 +18,11 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Configure Git user
+        run: |
+          git config --global user.email "olinyajames@gmail.com"
+          git config --global user.name "James Olinya"
+
       - name: Bump version and create tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
