@@ -28,9 +28,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Determine Version Bump
+        if: steps.bump_version.outputs.hasChangesets == 'false'
         id: determine_version
         run: |
-          VERSION=$(npx changeset version)
+          VERSION=$(node -e "console.log(require('./package.json').version)")
           echo "::set-output name=version::$VERSION"
 
       - name: Create GitHub Release
