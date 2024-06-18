@@ -27,12 +27,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
+      - name: Determine Version Bump
+        id: determine_version
+        run: |
+          VERSION=$(npx changeset version)
+          echo "::set-output name=version::$VERSION"
+
       - name: Create GitHub Release
         if: steps.bump_version.outputs.hasChangesets == 'false'
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.bump_version.outputs.version }}
-          name: Release ${{ steps.bump_version.outputs.version }}
-          body: "Release of version ${{ steps.bump_version.outputs.version }}"
+          tag_name: ${{ steps.determine_version.outputs.version }}
+          name: Release ${{ steps.determine_version.outputs.version }}
+          body: "Release of version ${{ steps.determine_version.outputs.version }}"
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
